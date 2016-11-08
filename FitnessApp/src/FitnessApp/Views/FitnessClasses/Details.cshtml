@@ -4,23 +4,34 @@
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
+<h2>@ViewData["Title"]</h2>
 
 <div>
-    <h4>FitnessClass</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FitnessClassType.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FitnessClassType.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Instructor.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Instructor.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Location.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Location.Name)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Capacity)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Capacity)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Created)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.DateOfClass)
@@ -29,28 +40,22 @@
             @Html.DisplayFor(model => model.DateOfClass)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.EndTime)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.EndTime)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.StartTime)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.StartTime)
         </dd>
         <dt>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EndTime)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Status)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Updated)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Updated)
         </dd>
     </dl>
 </div>

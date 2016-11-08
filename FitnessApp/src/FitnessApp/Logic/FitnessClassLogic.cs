@@ -15,10 +15,10 @@ namespace FitnessApp.Logic
             _fitnessClassRepository = fitnessClassRepository;
         }
 
-        //public async Task<FitnessClass> Get(int id)
-        //{
-        //    return await _fitnessClassRepository.FindById(id);
-        //}
+        public async Task<FitnessClass> FindById(int id)
+        {
+            return await _fitnessClassRepository.FindById(id);
+        }
 
         public async Task<List<FitnessClass>> GetList()
         {
@@ -30,18 +30,21 @@ namespace FitnessApp.Logic
             }
 
             return fitnessClasses;
-
-            //return MapFitnessClassToFitnessClassListItem(fitnessClasses);
         }
 
-        //public void Save(FitnessClass fitnessClass)
-        //{
-        //    _fitnessClassRepository.Insert(fitnessClass);
-        //}
+        public async Task Save(FitnessClass fitnessClass)
+        {
+            await _fitnessClassRepository.Insert(fitnessClass);
+        }
 
-        //public void Delete(int id)
-        //{
-        //    _fitnessClassRepository.Delete(id);
-        //}
+        public void Delete(int id)
+        {
+            _fitnessClassRepository.Delete(id);
+        }
+
+        public bool FitnessClassExists(int id)
+        {
+            return _fitnessClassRepository.Find(id);
+        }
     }
 }

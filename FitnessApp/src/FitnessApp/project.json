@@ -39,8 +39,8 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
-    "BundlerMinifier.Core": "2.2.281",
-    "Microsoft.EntityFrameworkCore.Design": "1.0.0-preview2-final",
+    "BundlerMinifier.Core": "2.2.301",
+    "Microsoft.EntityFrameworkCore.Design": "1.0.1",
     "Microsoft.EntityFrameworkCore": "1.0.1"
   },
 
