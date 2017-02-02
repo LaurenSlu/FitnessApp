@@ -15,7 +15,7 @@ namespace FitnessApp.Controllers
 
         public FitnessClassesController(IFitnessClassLogic fitnessClassLogic)
         {
-            _fitnessClassLogic = fitnessClassLogic;    
+            _fitnessClassLogic = fitnessClassLogic;
         }
 
         // GET: FitnessClasses
@@ -33,18 +33,20 @@ namespace FitnessApp.Controllers
         // POST: FitnessClasses/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,Capacity,Created,DateOfClass,EndTime,StartTime,Status,Updated")] FitnessClass fitnessClass)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(fitnessClass);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(fitnessClass);
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(
+            [Bind("Id, StartTime, EndTime, DateOfClass, Status, Capacity, FitnessClassType, Instructor, Location")]
+            FitnessClassEditView fitnessClass
+        )
+        {
+            if (ModelState.IsValid)
+            {
+                await _fitnessClassLogic.Save(fitnessClass);
+                return RedirectToAction("Index");
+            }
+            return View(fitnessClass);
+        }
 
         // GET: FitnessClasses/Edit/5
         public IActionResult Edit(int id)
@@ -64,8 +66,8 @@ namespace FitnessApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(
-            int id, 
-            [Bind("Id, StartTime, EndTime, DateOfClass, Status, Capacity, FitnessClassType, Instructor, Location")] 
+            int id,
+            [Bind("Id, StartTime, EndTime, DateOfClass, Status, Capacity, FitnessClassType, Instructor, Location")]
             FitnessClassEditView fitnessClass
         )
         {
@@ -85,8 +87,7 @@ namespace FitnessApp.Controllers
                     if (!_fitnessClassLogic.FitnessClassExists(fitnessClass.Id))
                     {
                         return NotFound();
-                    }
-                    else
+                    } else
                     {
                         throw;
                     }
