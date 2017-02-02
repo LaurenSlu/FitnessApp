@@ -15,14 +15,14 @@ namespace FitnessApp.Logic
             _instructorRepository = instructorRepository;
         }
 
-        public async Task<Instructor> Get(int id)
+        public Instructor FindById(int id)
         {
-            return await _instructorRepository.FindById(id);
+            return _instructorRepository.FindById(id);
         }
 
-        public async Task<List<Instructor>> GetList()
+        public List<Instructor> GetList()
         {
-            var instructors = await _instructorRepository.All();
+            var instructors = _instructorRepository.All();
 
             if (instructors == null || !instructors.Any())
             {
@@ -32,9 +32,9 @@ namespace FitnessApp.Logic
             return instructors;
         }
 
-        public void Save(Instructor instructor)
+        public async Task Save(Instructor instructor)
         {
-            _instructorRepository.Insert(instructor);
+            await _instructorRepository.Insert(instructor);
         }
 
         public void Delete(int id)

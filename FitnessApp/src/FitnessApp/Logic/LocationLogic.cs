@@ -15,26 +15,25 @@ namespace FitnessApp.Logic
             _locationRepository = locationRepository;
         }
 
-        public async Task<Location> Get(int id)
+        public Location Get(int id)
         {
-            return await _locationRepository.FindById(id);
+            return _locationRepository.FindById(id);
         }
 
-        public async Task<List<Location>> GetList()
+        public List<Location> GetList()
         {
-            var locations = await _locationRepository.All();
+            var locations = _locationRepository.All();
 
             if (locations == null || !locations.Any())
             {
                 return Enumerable.Empty<Location>().ToList();
             }
-
             return locations;
         }
 
-        public void Save(Location location)
+        public async Task Save(Location location)
         {
-            _locationRepository.Insert(location);
+           await _locationRepository.Insert(location);
         }
 
         public void Delete(int id)

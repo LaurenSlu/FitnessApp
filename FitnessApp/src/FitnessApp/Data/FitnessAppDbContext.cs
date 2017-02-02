@@ -22,14 +22,14 @@ namespace FitnessApp.Data
         {
             base.OnModelCreating(builder);
 
-            FitnessClassEntityRules(builder);
-            FitnessClassTypeEntityRules(builder);
-            InstructorEntityRules(builder);
-            LocationEntityRules(builder);
-            RegistrationRecordsEntityRules(builder);
+            FitnessClassSchema(builder);
+            FitnessClassTypeSchema(builder);
+            InstructorSchema(builder);
+            LocationSchema(builder);
+            RegistrationRecordsSchema(builder);
         }
 
-        private void RegistrationRecordsEntityRules(ModelBuilder builder)
+        private void RegistrationRecordsSchema(ModelBuilder builder)
         {
             builder.Entity<RegistrationRecord>()
                 .Property(r => r.Name)
@@ -49,28 +49,28 @@ namespace FitnessApp.Data
                 .HasForeignKey(p => p.FitnessClass_Id);
         }
 
-        private void LocationEntityRules(ModelBuilder builder)
+        private void LocationSchema(ModelBuilder builder)
         {
             builder.Entity<Location>()
                 .Property(r => r.Name)
                 .IsRequired();
         }
 
-        private void InstructorEntityRules(ModelBuilder builder)
+        private void InstructorSchema(ModelBuilder builder)
         {
             builder.Entity<Instructor>()
                 .Property(r => r.Name)
                 .IsRequired();
         }
 
-        private void FitnessClassTypeEntityRules(ModelBuilder builder)
+        private void FitnessClassTypeSchema(ModelBuilder builder)
         {
             builder.Entity<FitnessClassType>()
                 .Property(r => r.Name)
                 .IsRequired();            
         }
 
-        private void FitnessClassEntityRules(ModelBuilder builder)
+        private void FitnessClassSchema(ModelBuilder builder)
         {
             builder.Entity<FitnessClass>()
                 .Property(r => r.StartTime)

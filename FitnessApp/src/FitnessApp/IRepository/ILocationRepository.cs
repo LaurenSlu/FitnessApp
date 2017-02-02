@@ -1,9 +1,14 @@
 ﻿using ApplicationModels.FitnessApp.Models;
-using FitnessApp.Core;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FitnessApp.IRepository
 {
-    public interface ILocationRepository : IRepository<Location>
+    public interface ILocationRepository
     {
+        List<Location> All();
+        Task Insert(Location location);
+        void Delete(int id);
+        Location FindById(int id);
     }
 }

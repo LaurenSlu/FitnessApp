@@ -1,25 +1,19 @@
 ﻿using FitnessApp.Core;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace ApplicationModels.FitnessApp.Models
 {
     public class FitnessClass : EntityBase
     {
-        [Display(Name = "Start Time")]
         public string StartTime { get; set; }
 
-        [Display(Name = "End Time")]
         public string EndTime { get; set; }
 
-        [Display(Name = "Class Date")]
         public DateTime DateOfClass { get; set; }
 
         public bool Status { get; set; }
 
-        [Display(Name = "Capacity")]
         public int Capacity { get; set; }
 
         public int FitnessClassType_Id { get; set; }
