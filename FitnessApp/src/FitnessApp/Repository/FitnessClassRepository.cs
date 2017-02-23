@@ -26,8 +26,10 @@ namespace FitnessApp.Repository
         }
 
         public void Delete(int id)
-        {            
-            throw new NotImplementedException();
+        {
+            var fitnessClass = FindById(id);
+            _context.Remove(fitnessClass);
+            _context.SaveChanges();
         }
 
         public FitnessClass FindById(int id)
@@ -47,6 +49,7 @@ namespace FitnessApp.Repository
             }
             else {
                 fitnessClass.Created = DateTime.Now;
+                fitnessClass.Updated = DateTime.Now;
                 _context.Add(fitnessClass);
             }
             await _context.SaveChangesAsync();

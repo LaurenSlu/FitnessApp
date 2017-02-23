@@ -1,20 +1,16 @@
-@model FitnessApp.Models.ApplicationViewModels.FitnessClassEditView
-
 @{
     ViewData["Title"] = "Edit Fitness Class";
 }
 
 <h2>@ViewData["Title"]</h2>
-
 <form asp-action="Edit">
     <div class="form-horizontal">
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="Id" />
         @await Html.PartialAsync("_FitnessClassPartial")
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-primary"/>
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </div>
     </div>

@@ -8,8 +8,8 @@ using FitnessApp.Data;
 namespace FitnessApp.Migrations
 {
     [DbContext(typeof(FitnessAppDbContext))]
-    [Migration("20170201014438_instructor")]
-    partial class instructor
+    [Migration("20170207185214_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,7 +33,7 @@ namespace FitnessApp.Migrations
 
                     b.Property<int>("FitnessClassType_Id");
 
-                    b.Property<int>("Instructors_Id");
+                    b.Property<int>("Instructor_Id");
 
                     b.Property<int>("Location_Id");
 
@@ -48,7 +48,7 @@ namespace FitnessApp.Migrations
 
                     b.HasIndex("FitnessClassType_Id");
 
-                    b.HasIndex("Instructors_Id");
+                    b.HasIndex("Instructor_Id");
 
                     b.HasIndex("Location_Id");
 
@@ -302,7 +302,7 @@ namespace FitnessApp.Migrations
 
                     b.HasOne("ApplicationModels.FitnessApp.Models.Instructor", "Instructor")
                         .WithMany("FitnessClasses")
-                        .HasForeignKey("Instructors_Id")
+                        .HasForeignKey("Instructor_Id")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ApplicationModels.FitnessApp.Models.Location", "Location")

@@ -1,10 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using FitnessApp.Logic;
-using ApplicationModels.FitnessApp.Models;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using FitnessApp.Models.ApplicationViewModels;
 
 namespace FitnessApp.Controllers
@@ -15,7 +12,7 @@ namespace FitnessApp.Controllers
 
         public FitnessClassesController(IFitnessClassLogic fitnessClassLogic)
         {
-            _fitnessClassLogic = fitnessClassLogic;    
+            _fitnessClassLogic = fitnessClassLogic;
         }
 
         // GET: FitnessClasses
@@ -33,18 +30,25 @@ namespace FitnessApp.Controllers
         // POST: FitnessClasses/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Id,Capacity,Created,DateOfClass,EndTime,StartTime,Status,Updated")] FitnessClass fitnessClass)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(fitnessClass);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(fitnessClass);
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(
+            [Bind("Id, StartTime, EndTime, DateOfClass, Status, Capacity, FitnessClassType, Instructor, Location")]
+            FitnessClassView fitnessClass
+        )
+        {
+            if (ModelState.IsValid)
+            {
+                await _fitnessClassLogic.Save(fitnessClass);
+                return RedirectToAction("Index");
+            } else
+            {
+                fitnessClass.FitnessClassTypes = _fitnessClassLogic.GetFitnessClassTypes();
+                fitnessClass.Locations = _fitnessClassLogic.GetLocations();
+                fitnessClass.Instructors = _fitnessClassLogic.GetInstructors();
+            }
+            return View(fitnessClass);
+        }
 
         // GET: FitnessClasses/Edit/5
         public IActionResult Edit(int id)
@@ -64,9 +68,9 @@ namespace FitnessApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(
-            int id, 
-            [Bind("Id, StartTime, EndTime, DateOfClass, Status, Capacity, FitnessClassType, Instructor, Location")] 
-            FitnessClassEditView fitnessClass
+            int id,
+            [Bind("Id, StartTime, EndTime, DateOfClass, Status, Capacity, FitnessClassType, Instructor, Location")]
+            FitnessClassView fitnessClass
         )
         {
             if (id != fitnessClass.Id)
@@ -85,44 +89,40 @@ namespace FitnessApp.Controllers
                     if (!_fitnessClassLogic.FitnessClassExists(fitnessClass.Id))
                     {
                         return NotFound();
-                    }
-                    else
+                    } else
                     {
                         throw;
                     }
                 }
                 return RedirectToAction("Index");
+            } else
+            {
+                fitnessClass.Locations = _fitnessClassLogic.GetLocations();
+                fitnessClass.Instructors = _fitnessClassLogic.GetInstructors();
+                fitnessClass.FitnessClassTypes = _fitnessClassLogic.GetFitnessClassTypes();
             }
             return View(fitnessClass);
         }
 
-        //    // GET: FitnessClasses/Delete/5
-        //    public async Task<IActionResult> Delete(int? id)
-        //    {
-        //        if (id == null)
-        //        {
-        //            return NotFound();
-        //        }
+        // GET: FitnessClasses/Delete/5
+        public IActionResult Delete(int id)
+        {
+            var fitnessClass = _fitnessClassLogic.FindById(id);
 
-        //        var fitnessClass = await _context.FitnessClass.SingleOrDefaultAsync(m => m.Id == id);
-        //        if (fitnessClass == null)
-        //        {
-        //            return NotFound();
-        //        }
+            if (fitnessClass == null)
+            {
+                return NotFound();
+            }
+            return View(fitnessClass);
+        }
 
-        //        return View(fitnessClass);
-        //    }
-
-        //    // POST: FitnessClasses/Delete/5
-        //    [HttpPost, ActionName("Delete")]
-        //    [ValidateAntiForgeryToken]
-        //    public async Task<IActionResult> DeleteConfirmed(int id)
-        //    {
-        //        var fitnessClass = await _context.FitnessClass.SingleOrDefaultAsync(m => m.Id == id);
-        //        _context.FitnessClass.Remove(fitnessClass);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction("Index");
-        //    }
-
+        // POST: FitnessClasses/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            _fitnessClassLogic.Delete(id);
+            return RedirectToAction("Index");
+        }
     }
 }

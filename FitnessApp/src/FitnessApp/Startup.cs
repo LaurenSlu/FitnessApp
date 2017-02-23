@@ -11,6 +11,9 @@ using FitnessApp.Services;
 using FitnessApp.Logic;
 using FitnessApp.Repository;
 using FitnessApp.IRepository;
+using AutoMapper;
+using ApplicationModels.FitnessApp.Models;
+using FitnessApp.Models.ApplicationViewModels;
 
 namespace FitnessApp
 {
@@ -78,6 +81,41 @@ namespace FitnessApp
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            Mapper.Initialize(config =>
+            {
+                config.CreateMap<FitnessClassView, FitnessClass>().
+                    ForMember(
+                        dest => dest.Instructor_Id,
+                        opt => opt.MapFrom(src => src.Instructor.Id)
+                    ).
+                    ForMember(
+                        dest => dest.Location_Id,
+                        opt => opt.MapFrom(src => src.Location.Id)
+                    ).
+                    ForMember(
+                        dest => dest.FitnessClassType_Id,
+                        opt => opt.MapFrom(src => src.FitnessClassType.Id)
+                    ).
+                    ForMember(
+                        dest => dest.FitnessClassType,
+                        opt => opt.Ignore()
+                    ).
+                    ForMember(
+                        dest => dest.Instructor,
+                        opt => opt.Ignore()
+                    ).
+                    ForMember(
+                        dest => dest.Location,
+                        opt => opt.Ignore()
+                    );
+
+                config.CreateMap<FitnessClass, FitnessClassView>();
+                config.CreateMap<FitnessClassType, FitnessClassTypeView>().ReverseMap();
+                config.CreateMap<Instructor, InstructorView>().ReverseMap();
+                config.CreateMap<Location, LocationView>().ReverseMap();
+                config.CreateMap<RegistrationRecord, RegistrationRecordView>().ReverseMap();
+            });
+
             app.UseApplicationInsightsRequestTelemetry();
 
             if (env.IsDevelopment())
@@ -85,8 +123,7 @@ namespace FitnessApp
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
                 app.UseBrowserLink();
-            }
-            else
+            } else
             {
                 app.UseExceptionHandler("/Home/Error");
             }

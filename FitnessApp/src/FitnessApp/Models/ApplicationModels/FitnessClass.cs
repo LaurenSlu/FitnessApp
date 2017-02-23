@@ -6,9 +6,9 @@ namespace ApplicationModels.FitnessApp.Models
 {
     public class FitnessClass : EntityBase
     {
-        public string StartTime { get; set; }
+        public TimeSpan StartTime { get; set; }
 
-        public string EndTime { get; set; }
+        public TimeSpan EndTime { get; set; }
 
         public DateTime DateOfClass { get; set; }
 
@@ -19,7 +19,7 @@ namespace ApplicationModels.FitnessApp.Models
         public int FitnessClassType_Id { get; set; }
         public FitnessClassType FitnessClassType { get; set; }
 
-        public int Instructors_Id { get; set; }
+        public int Instructor_Id { get; set; }
         public Instructor Instructor { get; set; }
 
         public int Location_Id { get; set; }

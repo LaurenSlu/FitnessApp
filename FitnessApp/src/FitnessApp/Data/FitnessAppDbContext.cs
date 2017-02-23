@@ -92,7 +92,7 @@ namespace FitnessApp.Data
             builder.Entity<FitnessClass>()
                 .HasOne(p => p.Instructor)
                 .WithMany(p => p.FitnessClasses)
-                .HasForeignKey(p => p.Instructors_Id);
+                .HasForeignKey(p => p.Instructor_Id);
 
             builder.Entity<FitnessClass>()
                 .HasOne(p => p.Location)

@@ -2,6 +2,8 @@
 using FitnessApp.IRepository;
 using ApplicationModels.FitnessApp.Models;
 using System.Collections.Generic;
+using FitnessApp.Models.ApplicationViewModels;
+using AutoMapper;
 
 namespace FitnessApp.Logic
 {
@@ -14,25 +16,27 @@ namespace FitnessApp.Logic
             _registrationRecordRepository = registrationRecordRepository;
         }
 
-        public RegistrationRecord Get(int id)
+        public RegistrationRecordView Get(int id)
         {
-            return _registrationRecordRepository.FindById(id);
+            var registrationRecord = _registrationRecordRepository.FindById(id);
+            return Mapper.Map<RegistrationRecordView>(registrationRecord);
         }
 
-        public List<RegistrationRecord> GetList()
+        public List<RegistrationRecordView> GetList()
         {
             var registrationRecords = _registrationRecordRepository.All();
 
             if (registrationRecords == null || !registrationRecords.Any())
             {
-                return Enumerable.Empty<RegistrationRecord>().ToList();
+                return Enumerable.Empty<RegistrationRecordView>().ToList();
             }
 
-            return registrationRecords;
+            return Mapper.Map<List<RegistrationRecordView>>(registrationRecords); ;
         }
 
-        public void Save(RegistrationRecord registrationRecord)
+        public void Save(RegistrationRecordView registrationRecordView)
         {
+            var registrationRecord = Mapper.Map<RegistrationRecord>(registrationRecordView);
             _registrationRecordRepository.Insert(registrationRecord);
         }
 

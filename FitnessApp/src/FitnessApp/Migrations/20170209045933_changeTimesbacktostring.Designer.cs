@@ -8,9 +8,10 @@ using FitnessApp.Data;
 namespace FitnessApp.Migrations
 {
     [DbContext(typeof(FitnessAppDbContext))]
-    partial class FitnessAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170209045933_changeTimesbacktostring")]
+    partial class changeTimesbacktostring
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -27,7 +28,8 @@ namespace FitnessApp.Migrations
 
                     b.Property<DateTime>("DateOfClass");
 
-                    b.Property<TimeSpan>("EndTime");
+                    b.Property<string>("EndTime")
+                        .IsRequired();
 
                     b.Property<int>("FitnessClassType_Id");
 
@@ -35,7 +37,8 @@ namespace FitnessApp.Migrations
 
                     b.Property<int>("Location_Id");
 
-                    b.Property<TimeSpan>("StartTime");
+                    b.Property<string>("StartTime")
+                        .IsRequired();
 
                     b.Property<bool>("Status");
 

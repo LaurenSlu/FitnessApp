@@ -3,6 +3,8 @@ using FitnessApp.IRepository;
 using ApplicationModels.FitnessApp.Models;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using FitnessApp.Models.ApplicationViewModels;
+using AutoMapper;
 
 namespace FitnessApp.Logic
 {
@@ -15,24 +17,26 @@ namespace FitnessApp.Logic
             _fitnessClassTypeRepository = fitnessClassTypeRepository;
         }
 
-        public FitnessClassType FindById(int id)
+        public FitnessClassTypeView FindById(int id)
         {
-            return _fitnessClassTypeRepository.FindById(id);
+            var fitnessClassType = _fitnessClassTypeRepository.FindById(id);
+            return Mapper.Map<FitnessClassTypeView>(fitnessClassType);
         }
 
-        public List<FitnessClassType> GetList()
+        public List<FitnessClassTypeView> GetList()
         {
-            var fitnessClassesType = _fitnessClassTypeRepository.All();
+            var fitnessClassesTypes = _fitnessClassTypeRepository.All();
 
-            if (fitnessClassesType == null || !fitnessClassesType.Any())
+            if (fitnessClassesTypes == null || !fitnessClassesTypes.Any())
             {
-                return Enumerable.Empty<FitnessClassType> ().ToList();
+                return Enumerable.Empty<FitnessClassTypeView> ().ToList();
             }
-            return fitnessClassesType;
+            return Mapper.Map<List<FitnessClassTypeView>>(fitnessClassesTypes); ;
         }
 
-        public async Task Save(FitnessClassType fitnessClassType)
+        public async Task Save(FitnessClassTypeView fitnessClassTypeView)
         {
+            var fitnessClassType = Mapper.Map<FitnessClassType>(fitnessClassTypeView);
             await _fitnessClassTypeRepository.Insert(fitnessClassType);
         }
 

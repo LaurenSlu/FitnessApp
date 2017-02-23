@@ -1,13 +1,13 @@
-﻿using ApplicationModels.FitnessApp.Models;
+﻿using FitnessApp.Models.ApplicationViewModels;
 using System.Collections.Generic;
 
 namespace FitnessApp.Logic
 {
     public interface IRegistrationRecordLogic
     {
-        RegistrationRecord Get(int id);
-        List<RegistrationRecord> GetList();
-        void Save(RegistrationRecord registrationRecord);
+        RegistrationRecordView Get(int id);
+        List<RegistrationRecordView> GetList();
+        void Save(RegistrationRecordView registrationRecord);
         void Delete(int id);
     }
 }
