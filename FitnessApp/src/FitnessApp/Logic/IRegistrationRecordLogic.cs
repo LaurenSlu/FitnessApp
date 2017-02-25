@@ -1,13 +1,17 @@
-﻿using ApplicationModels.FitnessApp.Models;
+﻿using FitnessApp.Models.ApplicationViewModels;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FitnessApp.Logic
 {
     public interface IRegistrationRecordLogic
     {
-        RegistrationRecord Get(int id);
-        List<RegistrationRecord> GetList();
-        void Save(RegistrationRecord registrationRecord);
+        RegistrationRecordView Get(int id);
+        Task<List<RegistrationRecordView>> GetList();
+        Task<List<FitnessClassRegistrationView>> FindByUserName(string userName);
+        Task Save(RegistrationRecordView registrationRecord);
+        Task SaveRange(int[] fitnessClassIds, string userName);
         void Delete(int id);
+        void DeleteRange(int[] registrationRecordIds, string userName);
     }
 }

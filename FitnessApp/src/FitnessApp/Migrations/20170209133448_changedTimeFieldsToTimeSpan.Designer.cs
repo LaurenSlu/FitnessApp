@@ -8,9 +8,10 @@ using FitnessApp.Data;
 namespace FitnessApp.Migrations
 {
     [DbContext(typeof(FitnessAppDbContext))]
-    partial class FitnessAppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170209133448_changedTimeFieldsToTimeSpan")]
+    partial class changedTimeFieldsToTimeSpan
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -34,8 +35,6 @@ namespace FitnessApp.Migrations
                     b.Property<int>("Instructor_Id");
 
                     b.Property<int>("Location_Id");
-
-                    b.Property<int>("RemainingCapacity");
 
                     b.Property<TimeSpan>("StartTime");
 
@@ -121,10 +120,10 @@ namespace FitnessApp.Migrations
 
                     b.Property<int>("FitnessClass_Id");
 
-                    b.Property<DateTime>("Updated");
-
-                    b.Property<string>("UserName")
+                    b.Property<string>("Name")
                         .IsRequired();
+
+                    b.Property<DateTime>("Updated");
 
                     b.Property<bool>("WaitListed");
 

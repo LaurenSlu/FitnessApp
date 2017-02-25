@@ -33,6 +33,7 @@ namespace FitnessApp.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Created = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: false),
+                    Status = table.Column<bool>(nullable: false),
                     Updated = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -119,7 +120,7 @@ namespace FitnessApp.Migrations
                     DateOfClass = table.Column<DateTime>(nullable: false),
                     EndTime = table.Column<string>(nullable: false),
                     FitnessClassType_Id = table.Column<int>(nullable: false),
-                    Instructors_Id = table.Column<int>(nullable: false),
+                    Instructor_Id = table.Column<int>(nullable: false),
                     Location_Id = table.Column<int>(nullable: false),
                     StartTime = table.Column<string>(nullable: false),
                     Status = table.Column<bool>(nullable: false),
@@ -135,8 +136,8 @@ namespace FitnessApp.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_FitnessClass_Instructor_Instructors_Id",
-                        column: x => x.Instructors_Id,
+                        name: "FK_FitnessClass_Instructor_Instructor_Id",
+                        column: x => x.Instructor_Id,
                         principalTable: "Instructor",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -264,9 +265,9 @@ namespace FitnessApp.Migrations
                 column: "FitnessClassType_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FitnessClass_Instructors_Id",
+                name: "IX_FitnessClass_Instructor_Id",
                 table: "FitnessClass",
-                column: "Instructors_Id");
+                column: "Instructor_Id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FitnessClass_Location_Id",
@@ -292,7 +293,8 @@ namespace FitnessApp.Migrations
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
-                column: "NormalizedName");
+                column: "NormalizedName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -313,11 +315,6 @@ namespace FitnessApp.Migrations
                 name: "IX_AspNetUserRoles_RoleId",
                 table: "AspNetUserRoles",
                 column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserRoles_UserId",
-                table: "AspNetUserRoles",
-                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

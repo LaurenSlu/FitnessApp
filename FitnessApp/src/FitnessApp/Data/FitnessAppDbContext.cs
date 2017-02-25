@@ -32,7 +32,7 @@ namespace FitnessApp.Data
         private void RegistrationRecordsSchema(ModelBuilder builder)
         {
             builder.Entity<RegistrationRecord>()
-                .Property(r => r.Name)
+                .Property(r => r.UserName)
                 .IsRequired();
 
             builder.Entity<RegistrationRecord>()
@@ -92,7 +92,7 @@ namespace FitnessApp.Data
             builder.Entity<FitnessClass>()
                 .HasOne(p => p.Instructor)
                 .WithMany(p => p.FitnessClasses)
-                .HasForeignKey(p => p.Instructors_Id);
+                .HasForeignKey(p => p.Instructor_Id);
 
             builder.Entity<FitnessClass>()
                 .HasOne(p => p.Location)
