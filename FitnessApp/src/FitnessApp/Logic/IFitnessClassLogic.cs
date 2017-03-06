@@ -1,5 +1,5 @@
-﻿using ApplicationModels.FitnessApp.Models;
-using FitnessApp.Models.ApplicationViewModels;
+﻿using FitnessApp.Models.ApplicationViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,11 +7,16 @@ namespace FitnessApp.Logic
 {
     public interface IFitnessClassLogic
     {
-        FitnessClassEditView FindById(int id);
+        Task<FitnessClassEditView> FindById(int id);
+        FitnessClassListView FindByIdForDelete(int id);
         bool FitnessClassExists(int id);
-        Task<List<FitnessClassView>>GetList();
+        Task<List<FitnessClassListView>> GetList();
+        Task<List<FitnessClassSignUpView>> GetAvailableClasses(string userName);
         Task Save(FitnessClassEditView fitnessClass);
         void Delete(int id);
-        FitnessClassEditView Create();
+        Task<FitnessClassEditView> Create();
+        Task<ICollection<SelectListItem>> GetLocations();
+        Task<ICollection<SelectListItem>> GetInstructors();
+        Task<ICollection<SelectListItem>> GetFitnessClassTypes();
     }
 }

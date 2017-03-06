@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace FitnessApp.Repository
 {
@@ -15,14 +16,16 @@ namespace FitnessApp.Repository
         {
             _context = context;
         }
-        public List<Location> All()
+        public async Task<List<Location>> All()
         {
-            return _context.Location.ToList();
+            return await _context.Location.ToListAsync();
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var location = FindById(id);
+            _context.Remove(location);
+            _context.SaveChanges();
         }
 
         public Location FindById(int id)
@@ -34,12 +37,20 @@ namespace FitnessApp.Repository
         {
             if (location.Id > 0)
             {
+                location.Updated = DateTime.Now;
                 _context.Update(location);
             } else
             {
+                location.Created = DateTime.Now;
+                location.Updated = DateTime.Now;
                 _context.Add(location);
             }
             await _context.SaveChangesAsync();
+        }
+
+        public bool LocationExists(int id)
+        {
+            return _context.Location.Any(e => e.Id == id);
         }
     }
 }

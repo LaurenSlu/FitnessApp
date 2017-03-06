@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace FitnessApp.Repository
 {
@@ -16,14 +17,16 @@ namespace FitnessApp.Repository
             _context = context;
         }
 
-        public List<Instructor> All()
+        public async Task<List<Instructor>> All()
         {
-            return _context.Instructor.ToList();
+            return await _context.Instructor.ToListAsync();
         }
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var instructor = FindById(id);
+            _context.Remove(instructor);
+            _context.SaveChanges();
         }
 
         public Instructor FindById(int id)
@@ -35,13 +38,20 @@ namespace FitnessApp.Repository
         {
             if (instructor.Id > 0)
             {
+                instructor.Updated = DateTime.Now;
                 _context.Update(instructor);
-            }
-            else
+            } else
             {
+                instructor.Updated = DateTime.Now;
+                instructor.Created = DateTime.Now;
                 _context.Add(instructor);
             }
             await _context.SaveChangesAsync();
+        }
+
+        public bool InstructorExists(int id)
+        {
+            return _context.Instructor.Any(e => e.Id == id);
         }
     }
 }

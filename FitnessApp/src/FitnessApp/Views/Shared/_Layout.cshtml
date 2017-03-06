@@ -4,32 +4,47 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Fitness Classes</title>
-
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/lib/bootswatch/united/bootstrap.css" />        
+        <link rel="stylesheet" href="~/lib/bootswatch/united/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/lib/bootswatch/united/bootstrap.min.css"/>
+        <link rel="stylesheet" href="~/lib/bootswatch/united/bootstrap.min.css" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 </head>
 <body>
     <div id="sidebar">
         <ul class="nav">
-            <li class="active"><a asp-controller="FitnessClasses" asp-action="Index">Fitness Classes</a></li>
+            <li><a asp-controller="Home" asp-action="Index">Home</a></li>
             <li><a asp-controller="Home" asp-action="About">About</a></li>
             <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <li><a asp-controller="FitnessClasses" asp-action="SignUp">Sign up for a Class</a></li>
+                <li><a asp-controller="RegistrationRecords" asp-action="RegistrationIndex">Your Registrations</a></li>
+            }
+        </ul>
+        <br />
+        <br />
+        <ul class="nav">
+            @if (User.Identity.IsAuthenticated && User.IsInRole("FitnessAppAdmin"))
+            {
+                <li class="active"><a asp-controller="FitnessClasses" asp-action="Index">Fitness Classes</a></li>
+                <li class="active"><a asp-controller="FitnessClassTypes" asp-action="Index">Fitness Class Types</a></li>
+                <li class="active"><a asp-controller="Instructors" asp-action="Index">Instructors</a></li>
+                <li class="active"><a asp-controller="Locations" asp-action="Index">Locations</a></li>
+            }
         </ul>
     </div>
     <div id="wrapper">
         <nav class="navbar navbar-default">
             <div class="container-fluid">
-                <a asp-controller="FitnessClasses" asp-action="Index" class="navbar-brand">Fitness Classes</a>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </nav>
@@ -39,11 +54,9 @@
             </div>
         </div>
         <div id="footer" class="container-fluid">
-            <div class="navbar navbar-default navbar-fixed-bottom">
-                <footer>
-                    <p class="text-center text-info">&copy; 2016 - Fitness Class Application</p>
-                </footer>
-            </div>
+            <footer>
+                <p class="text-center text-info">&copy; 2017 - Fitness Class Application</p>
+            </footer>
         </div>
     </div>
 

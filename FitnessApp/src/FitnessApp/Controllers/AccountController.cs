@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -22,6 +20,7 @@ namespace FitnessApp.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly string userRoleName = "UserRole";
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -63,7 +62,7 @@ namespace FitnessApp.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
-                    return RedirectToLocal(returnUrl);
+                   return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
@@ -73,8 +72,7 @@ namespace FitnessApp.Controllers
                 {
                     _logger.LogWarning(2, "User account locked out.");
                     return View("Lockout");
-                }
-                else
+                } else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return View(model);
@@ -95,7 +93,6 @@ namespace FitnessApp.Controllers
             return View();
         }
 
-        //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
@@ -107,6 +104,7 @@ namespace FitnessApp.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
+                var roleResult = await _userManager.AddToRoleAsync(user, userRoleName);
                 if (result.Succeeded)
                 {
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=532713
@@ -134,7 +132,7 @@ namespace FitnessApp.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation(4, "User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction(nameof(AccountController.Login), "Account");
         }
 
         //
@@ -181,8 +179,7 @@ namespace FitnessApp.Controllers
             if (result.IsLockedOut)
             {
                 return View("Lockout");
-            }
-            else
+            } else
             {
                 // If the user does not have an account, then ask the user to create an account.
                 ViewData["ReturnUrl"] = returnUrl;
@@ -380,8 +377,7 @@ namespace FitnessApp.Controllers
             if (model.SelectedProvider == "Email")
             {
                 await _emailSender.SendEmailAsync(await _userManager.GetEmailAsync(user), "Security Code", message);
-            }
-            else if (model.SelectedProvider == "Phone")
+            } else if (model.SelectedProvider == "Phone")
             {
                 await _smsSender.SendSmsAsync(await _userManager.GetPhoneNumberAsync(user), message);
             }
@@ -428,8 +424,7 @@ namespace FitnessApp.Controllers
             {
                 _logger.LogWarning(7, "User account locked out.");
                 return View("Lockout");
-            }
-            else
+            } else
             {
                 ModelState.AddModelError(string.Empty, "Invalid code.");
                 return View(model);
@@ -453,14 +448,7 @@ namespace FitnessApp.Controllers
 
         private IActionResult RedirectToLocal(string returnUrl)
         {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
-            }
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
         #endregion

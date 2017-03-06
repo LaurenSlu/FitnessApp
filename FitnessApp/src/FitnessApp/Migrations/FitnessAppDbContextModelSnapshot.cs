@@ -27,17 +27,17 @@ namespace FitnessApp.Migrations
 
                     b.Property<DateTime>("DateOfClass");
 
-                    b.Property<string>("EndTime")
-                        .IsRequired();
+                    b.Property<TimeSpan>("EndTime");
 
                     b.Property<int>("FitnessClassType_Id");
 
-                    b.Property<int>("Instructors_Id");
+                    b.Property<int>("Instructor_Id");
 
                     b.Property<int>("Location_Id");
 
-                    b.Property<string>("StartTime")
-                        .IsRequired();
+                    b.Property<int>("RemainingCapacity");
+
+                    b.Property<TimeSpan>("StartTime");
 
                     b.Property<bool>("Status");
 
@@ -47,7 +47,7 @@ namespace FitnessApp.Migrations
 
                     b.HasIndex("FitnessClassType_Id");
 
-                    b.HasIndex("Instructors_Id");
+                    b.HasIndex("Instructor_Id");
 
                     b.HasIndex("Location_Id");
 
@@ -121,10 +121,10 @@ namespace FitnessApp.Migrations
 
                     b.Property<int>("FitnessClass_Id");
 
-                    b.Property<string>("Name")
-                        .IsRequired();
-
                     b.Property<DateTime>("Updated");
+
+                    b.Property<string>("UserName")
+                        .IsRequired();
 
                     b.Property<bool>("WaitListed");
 
@@ -301,7 +301,7 @@ namespace FitnessApp.Migrations
 
                     b.HasOne("ApplicationModels.FitnessApp.Models.Instructor", "Instructor")
                         .WithMany("FitnessClasses")
-                        .HasForeignKey("Instructors_Id")
+                        .HasForeignKey("Instructor_Id")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ApplicationModels.FitnessApp.Models.Location", "Location")
