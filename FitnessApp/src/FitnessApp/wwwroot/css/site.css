@@ -12,9 +12,20 @@
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
 input,
-select,
-textarea {
+select
+{
     max-width: 280px;
+}
+
+textarea {
+    max-width: 780px;
+}
+
+.pre-scrollable {
+  max-height: 340px;
+  max-width: 800px;
+  overflow-y: auto;
+  overflow-x: auto;
 }
 
 select.form-control:not([size]):not([multiple]) {
@@ -68,6 +79,10 @@ select.form-control:not([size]):not([multiple]) {
     .menu li a {
         color: #eee;
     }
+
+tr:nth-child(even){
+    background-color: aliceblue
+}
 
 #sidebar {
     background: #2a2c36;

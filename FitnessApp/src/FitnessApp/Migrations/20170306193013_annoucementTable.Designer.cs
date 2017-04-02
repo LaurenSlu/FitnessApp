@@ -8,14 +8,34 @@ using FitnessApp.Data;
 namespace FitnessApp.Migrations
 {
     [DbContext(typeof(FitnessAppDbContext))]
-    [Migration("20161102182022_init")]
-    partial class init
+    [Migration("20170306193013_annoucementTable")]
+    partial class annoucementTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.0.1")
+                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("ApplicationModels.FitnessApp.Models.Announcement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Comment")
+                        .IsRequired();
+
+                    b.Property<DateTime>("Created");
+
+                    b.Property<string>("Title")
+                        .IsRequired();
+
+                    b.Property<DateTime>("Updated");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Announcement");
+                });
 
             modelBuilder.Entity("ApplicationModels.FitnessApp.Models.FitnessClass", b =>
                 {
@@ -28,17 +48,17 @@ namespace FitnessApp.Migrations
 
                     b.Property<DateTime>("DateOfClass");
 
-                    b.Property<string>("EndTime")
-                        .IsRequired();
+                    b.Property<TimeSpan>("EndTime");
 
                     b.Property<int>("FitnessClassType_Id");
 
-                    b.Property<int>("Instructors_Id");
+                    b.Property<int>("Instructor_Id");
 
                     b.Property<int>("Location_Id");
 
-                    b.Property<string>("StartTime")
-                        .IsRequired();
+                    b.Property<int>("RemainingCapacity");
+
+                    b.Property<TimeSpan>("StartTime");
 
                     b.Property<bool>("Status");
 
@@ -48,7 +68,7 @@ namespace FitnessApp.Migrations
 
                     b.HasIndex("FitnessClassType_Id");
 
-                    b.HasIndex("Instructors_Id");
+                    b.HasIndex("Instructor_Id");
 
                     b.HasIndex("Location_Id");
 
@@ -83,6 +103,8 @@ namespace FitnessApp.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired();
+
+                    b.Property<bool>("Status");
 
                     b.Property<DateTime>("Updated");
 
@@ -120,10 +142,10 @@ namespace FitnessApp.Migrations
 
                     b.Property<int>("FitnessClass_Id");
 
-                    b.Property<string>("Name")
-                        .IsRequired();
-
                     b.Property<DateTime>("Updated");
+
+                    b.Property<string>("UserName")
+                        .IsRequired();
 
                     b.Property<bool>("WaitListed");
 
@@ -136,7 +158,8 @@ namespace FitnessApp.Migrations
 
             modelBuilder.Entity("FitnessApp.Models.ApplicationUser", b =>
                 {
-                    b.Property<string>("Id");
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<int>("AccessFailedCount");
 
@@ -144,7 +167,7 @@ namespace FitnessApp.Migrations
                         .IsConcurrencyToken();
 
                     b.Property<string>("Email")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
 
@@ -153,10 +176,10 @@ namespace FitnessApp.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<string>("NormalizedUserName")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<string>("PasswordHash");
 
@@ -169,7 +192,7 @@ namespace FitnessApp.Migrations
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
@@ -185,20 +208,22 @@ namespace FitnessApp.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
                 {
-                    b.Property<string>("Id");
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
                     b.Property<string>("Name")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.Property<string>("NormalizedName")
-                        .HasAnnotation("MaxLength", 256);
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
+                        .IsUnique()
                         .HasName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
@@ -270,8 +295,6 @@ namespace FitnessApp.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("AspNetUserRoles");
                 });
 
@@ -299,7 +322,7 @@ namespace FitnessApp.Migrations
 
                     b.HasOne("ApplicationModels.FitnessApp.Models.Instructor", "Instructor")
                         .WithMany("FitnessClasses")
-                        .HasForeignKey("Instructors_Id")
+                        .HasForeignKey("Instructor_Id")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ApplicationModels.FitnessApp.Models.Location", "Location")

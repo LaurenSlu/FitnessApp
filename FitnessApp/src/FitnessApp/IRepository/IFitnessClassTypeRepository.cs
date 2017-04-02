@@ -6,9 +6,10 @@ namespace FitnessApp.IRepository
 {
     public interface IFitnessClassTypeRepository
     {
-        List<FitnessClassType> All();
+        Task<List<FitnessClassType>> All();
         Task Insert(FitnessClassType fitnessClassType);
         void Delete(int id);
         FitnessClassType FindById(int id);
+        bool FitnessClassTypeExists(int id);
     }
 }

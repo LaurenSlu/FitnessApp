@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using FitnessApp.Models;
 using ApplicationModels.FitnessApp.Models;
+using System;
 
 namespace FitnessApp.Data
 {
@@ -17,6 +18,7 @@ namespace FitnessApp.Data
         public DbSet<Location> Location { get; set; }
         public DbSet<FitnessClass> FitnessClass { get; set; }
         public DbSet<RegistrationRecord> RegistrationRecord { get; set; }
+        public DbSet<Announcement> Announcement { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -27,12 +29,23 @@ namespace FitnessApp.Data
             InstructorSchema(builder);
             LocationSchema(builder);
             RegistrationRecordsSchema(builder);
+            AnnouncementSchema(builder);
+        }
+        private void AnnouncementSchema(ModelBuilder builder)
+        {
+            builder.Entity<Announcement>()
+                .Property(a => a.Title)
+                .IsRequired();
+
+            builder.Entity<Announcement>()
+                .Property(a => a.Comment)
+                .IsRequired();
         }
 
         private void RegistrationRecordsSchema(ModelBuilder builder)
         {
             builder.Entity<RegistrationRecord>()
-                .Property(r => r.Name)
+                .Property(r => r.UserName)
                 .IsRequired();
 
             builder.Entity<RegistrationRecord>()
@@ -67,7 +80,7 @@ namespace FitnessApp.Data
         {
             builder.Entity<FitnessClassType>()
                 .Property(r => r.Name)
-                .IsRequired();            
+                .IsRequired();
         }
 
         private void FitnessClassSchema(ModelBuilder builder)
@@ -92,7 +105,7 @@ namespace FitnessApp.Data
             builder.Entity<FitnessClass>()
                 .HasOne(p => p.Instructor)
                 .WithMany(p => p.FitnessClasses)
-                .HasForeignKey(p => p.Instructors_Id);
+                .HasForeignKey(p => p.Instructor_Id);
 
             builder.Entity<FitnessClass>()
                 .HasOne(p => p.Location)

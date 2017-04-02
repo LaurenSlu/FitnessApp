@@ -3,6 +3,8 @@ using FitnessApp.IRepository;
 using ApplicationModels.FitnessApp.Models;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using FitnessApp.Models.ApplicationViewModels;
+using AutoMapper;
 
 namespace FitnessApp.Logic
 {
@@ -15,31 +17,38 @@ namespace FitnessApp.Logic
             _instructorRepository = instructorRepository;
         }
 
-        public Instructor FindById(int id)
+        public InstructorView FindById(int id)
         {
-            return _instructorRepository.FindById(id);
+            var instructor = _instructorRepository.FindById(id);
+            return Mapper.Map<InstructorView>(instructor);
         }
 
-        public List<Instructor> GetList()
+        public async Task<List<InstructorView>> GetList()
         {
-            var instructors = _instructorRepository.All();
+            var instructors = await _instructorRepository.All();
 
             if (instructors == null || !instructors.Any())
             {
-                return Enumerable.Empty<Instructor>().ToList();
+                return Enumerable.Empty<InstructorView>().ToList();
             }
 
-            return instructors;
+            return Mapper.Map<List<InstructorView>>(instructors); ;
         }
 
-        public async Task Save(Instructor instructor)
+        public async Task Save(InstructorView instructorView)
         {
+            var instructor = Mapper.Map<Instructor>(instructorView);
             await _instructorRepository.Insert(instructor);
         }
 
         public void Delete(int id)
         {
             _instructorRepository.Delete(id);
+        }
+
+        public bool InstructorExists(int id)
+        {
+            return _instructorRepository.InstructorExists(id);
         }
     }
 }

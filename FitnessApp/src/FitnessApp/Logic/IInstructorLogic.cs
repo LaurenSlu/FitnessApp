@@ -1,4 +1,4 @@
-﻿using ApplicationModels.FitnessApp.Models;
+﻿using FitnessApp.Models.ApplicationViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,9 +6,10 @@ namespace FitnessApp.Logic
 {
     public interface IInstructorLogic
     {
-        Instructor FindById(int id);
-        List<Instructor> GetList();
-        Task Save(Instructor instructor);
+        InstructorView FindById(int id);
+        Task<List<InstructorView>> GetList();
+        Task Save(InstructorView instructor);
         void Delete(int id);
+        bool InstructorExists(int id);
     }
 }
